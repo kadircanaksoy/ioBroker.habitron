@@ -16,10 +16,10 @@
                 "zh-cn": "首次出版"
             }
         },
-        "title": "Template (JavaScript with VIS)",
+        "title": "Habitron",
         "titleLang": {
-            "en": "Template (JavaScript with VIS)",
-            "de": "Vorlage (JavaScript mit VIS)",
+            "en": "Habitron",
+            "de": "Habitron",
             "ru": "Шаблон (JavaScript с VIS)",
             "pt": "Modelo (JavaScript com VIS)",
             "nl": "Sjabloon (JavaScript met VIS)",
@@ -30,8 +30,8 @@
             "zh-cn": "模板（JavaScript和VIS）"
         },
         "desc": {
-            "en": "Template for adapter development",
-            "de": "Vorlage für die Adapterentwicklung",
+            "en": "Habitron adapter based on JS with VIS template.",
+            "de": "Habitron-Adapter basierend auf JS mit VIS-Vorlage.",
             "ru": "Шаблон для разработки адаптера",
             "pt": "Modelo para desenvolvimento de adaptadores",
             "nl": "Sjabloon voor adapterontwikkeling",
@@ -42,7 +42,7 @@
             "zh-cn": "适配器开发的模板"
         },
         "authors": [
-            "Author <author@mail.com>"
+            "Kadircan Aksoy <kadircan.aksoy@metu.edu.tr>"
         ],
         "keywords": [
             "ioBroker",
@@ -53,10 +53,10 @@
         "license": "MIT",
         "platform": "Javascript/Node.js",
         "main": "main.js",
-        "icon": "template.png",
+        "icon": "habitron.png",
         "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/Author/ioBroker.template/master/admin/template.png",
-        "readme": "https://github.com/Author/ioBroker.template/blob/master/README.md",
+        "extIcon": "https://raw.githubusercontent.com/kadircanaksoy/iobroker.habitron/master/habitron.png",
+        "readme": "https://github.com/kadircanaksoy/iobroker.habitron/blob/master/README.md",
         "loglevel": "info",
         "restartAdapters": [
             "vis"
