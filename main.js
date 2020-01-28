@@ -117,7 +117,7 @@ class Template extends utils.Adapter {
     onStateChange(id, state) {
         if (state) {
             // The state was changed
-            this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+            this.log.info(`daddy, the state ${id} changed: ${state.val} (ack = ${state.ack})`);
         } else {
             // The state was deleted
             this.log.info(`state ${id} deleted`);

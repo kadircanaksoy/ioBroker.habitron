@@ -53,7 +53,7 @@
         "license": "MIT",
         "platform": "Javascript/Node.js",
         "main": "main.js",
-        "icon": "habitron.png",
+        "icon": "template.png",
         "enabled": true,
         "extIcon": "https://raw.githubusercontent.com/kadircanaksoy/iobroker.habitron/master/admin/habitron.png",
         "readme": "https://github.com/kadircanaksoy/iobroker.habitron/blob/master/README.md",
