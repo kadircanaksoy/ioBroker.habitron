@@ -30,7 +30,7 @@
             "zh-cn": "模板（JavaScript和VIS）"
         },
         "desc": {
-            "en": "Habitron adapter based on JS with VIS template.",
+            "en": "Habitron adapter based on the JS with VIS template.",
             "de": "Habitron-Adapter basierend auf JS mit VIS-Vorlage.",
             "ru": "Шаблон для разработки адаптера",
             "pt": "Modelo para desenvolvimento de adaptadores",
@@ -93,8 +93,9 @@
         ]
     },
     "native": {
-        "option1": false,
-        "option2": "42"
+        "option1": true,
+        "option2": "42",
+        "option3": "192.168.1.1"
     },
     "objects": [],
     "instanceObjects": []

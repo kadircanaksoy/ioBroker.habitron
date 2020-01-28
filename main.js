@@ -19,7 +19,7 @@ class Template extends utils.Adapter {
     constructor(options) {
         super({
             ...options,
-            name: 'habitron_template',
+            name: 'habitron',
         });
         this.on('ready', this.onReady.bind(this));
         this.on('objectChange', this.onObjectChange.bind(this));
@@ -38,6 +38,7 @@ class Template extends utils.Adapter {
         // this.config:
         this.log.info('config option1: ' + this.config.option1);
         this.log.info('config option2: ' + this.config.option2);
+        this.log.info('config option3: '+ this.config.option3);
 
         /*
         For every state in the system there has to be also an object of type state
@@ -117,7 +118,8 @@ class Template extends utils.Adapter {
     onStateChange(id, state) {
         if (state) {
             // The state was changed
-            this.log.info(`daddy, the state ${id} changed: ${state.val} (ack = ${state.ack})`);
+            this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+
         } else {
             // The state was deleted
             this.log.info(`state ${id} deleted`);
