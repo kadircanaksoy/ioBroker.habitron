@@ -22,6 +22,9 @@
   "_shasum": "3d70be8e5ec73f453309e40d0da0d839db6a92c6",
   "_spec": "https://github.com/kadircanaksoy/ioBroker.habitron/tarball/e484091b0d7513271f152896006c01f34c88267a",
   "_where": "/",
+  "name": "iobroker.habitron",
+  "version": "0.0.1",
+  "description": "Adapter for the Habitron system ",
   "author": {
     "name": "Kadircan Aksoy",
     "email": "kadircan.aksoy@metu.edu.tr"
