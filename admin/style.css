@@ -1,0 +1,27 @@
+/* You can delete those if you want. I just found them very helpful */
+* {
+    box-sizing: border-box
+}
+.m {
+    /* Don't cut off dropdowns! */
+    overflow: initial;
+}
+
+/* Add your styles here */
+#grid-devices tr:nth-child(even) {
+    background: lightgray;
+}
+.m .select-wrapper+label {
+    top: 100%;
+}
+.grid-table {
+    height: calc(100% - 110px);
+    overflow: auto;
+}
+.m .select-wrapper input.select-dropdown {
+    height: 1.5rem;
+    line-height: 1.5rem;
+}
+.m td, .m th {
+    padding: 2px 5px;
+}

@@ -1,0 +1,81 @@
+{
+  "_from": "https://github.com/kadircanaksoy/ioBroker.habitron/tarball/e484091b0d7513271f152896006c01f34c88267a",
+  "_id": "iobroker.habitron@0.0.1",
+  "_inBundle": false,
+  "_integrity": "sha512-huHs/IRyIqzyzWAliPKKhf2jZWKOpyXbZ8Zv3D5SHHnbgU+KROtht2BxiRuhkxu5ut2kOE6Iee7sdag27T/dzQ==",
+  "_location": "/iobroker.habitron",
+  "_phantomChildren": {
+    "@types/node": "13.1.8"
+  },
+  "_requested": {
+    "type": "remote",
+    "raw": "https://github.com/kadircanaksoy/ioBroker.habitron/tarball/e484091b0d7513271f152896006c01f34c88267a",
+    "rawSpec": "https://github.com/kadircanaksoy/ioBroker.habitron/tarball/e484091b0d7513271f152896006c01f34c88267a",
+    "saveSpec": "https://github.com/kadircanaksoy/ioBroker.habitron/tarball/e484091b0d7513271f152896006c01f34c88267a",
+    "fetchSpec": "https://github.com/kadircanaksoy/ioBroker.habitron/tarball/e484091b0d7513271f152896006c01f34c88267a"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://github.com/kadircanaksoy/ioBroker.habitron/tarball/e484091b0d7513271f152896006c01f34c88267a",
+  "_shasum": "3d70be8e5ec73f453309e40d0da0d839db6a92c6",
+  "_spec": "https://github.com/kadircanaksoy/ioBroker.habitron/tarball/e484091b0d7513271f152896006c01f34c88267a",
+  "_where": "/",
+  "author": {
+    "name": "Kadircan Aksoy",
+    "email": "kadircan.aksoy@metu.edu.tr"
+  },
+  "bugs": {
+    "url": "https://github.com/kadircanaksoy/ioBroker.habitron/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "@iobroker/adapter-core": "^2.1.0"
+  },
+  "deprecated": false,
+  "description": "Adapter for the Habitron system ",
+  "devDependencies": {
+    "@iobroker/testing": "^2.0.0",
+    "@types/chai": "^4.2.7",
+    "@types/chai-as-promised": "^7.1.2",
+    "@types/gulp": "^4.0.6",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^10.17.13",
+    "@types/proxyquire": "^1.3.28",
+    "@types/sinon": "^7.5.1",
+    "@types/sinon-chai": "^3.2.3",
+    "axios": "^0.19.1",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^6.8.0",
+    "gulp": "^4.0.2",
+    "mocha": "^7.0.0",
+    "proxyquire": "^2.1.3",
+    "sinon": "^8.1.0",
+    "sinon-chai": "^3.4.0"
+  },
+  "homepage": "https://github.com/kadircanaksoy/ioBroker.habitron",
+  "keywords": [
+    "ioBroker",
+    "template",
+    "Smart Home",
+    "home automation"
+  ],
+  "license": "MIT",
+  "main": "main.js",
+  "name": "iobroker.habitron",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kadircanaksoy/ioBroker.habitron.git"
+  },
+  "scripts": {
+    "lint": "eslint",
+    "test": "npm run test:js && npm run test:package",
+    "test:integration": "mocha test/integration --exit",
+    "test:js": "mocha --opts test/mocha.custom.opts",
+    "test:package": "mocha test/package --exit",
+    "test:unit": "mocha test/unit --exit"
+  },
+  "version": "0.0.1"
+}
