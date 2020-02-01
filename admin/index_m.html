@@ -18,6 +18,35 @@
 
     <script type="text/javascript">
         // This will be called by the admin adapter when the settings page loads
+        var devices = {};
+        function show_device(device){
+            var device_html = '';
+            var _deviceType = 'Smart '+ device.deviceType.slice(2).replace(/^\w/, c => c.toUpperCase());
+
+            device_html += '<tr class="device" data-channel="' + 'habitron-'+ instance + device.deviceName.toString() + '">';
+            device_html += '<td style="text-align: left;   width: 150px">' + device.deviceName.toString() + '</td>';
+            device_html += '<td style="text-align: center; width: 100px">' + device.deviceAddress.toString() + '</td>';
+            device_html += '<td style="text-align: center; width: 100px">' + _deviceType + '</td>';
+            device_html += '<td style="text-align: center"><a class="btn-floating waves-effect waves-light red del" data-id="' 
+                        + 'habitron-'+ instance + device.deviceName.toString() 
+                        + '"><i class="material-icons">delete</i></a></td>';
+            device_html += '</tr>';
+
+            $('#grid-devices').append(device_html);
+        }
+
+        function add_device(name, IP, type){
+
+            var device = {
+                deviceName : name,
+                deviceAddress : IP,
+                deviceType : type
+            };
+
+            devices[name] = device;
+            show_device(device);
+        }
+
         function load(settings, onChange) {
             // example: select elements with id=key and class=value and insert value
             if (!settings) return;
@@ -38,8 +67,27 @@
                 }
             });
             onChange(false);
+
+            $('#add').off('click').on('click', function () {
+                $('#add-device-menu').modal().modal('open');
+            });  
+            
+            $('#add-device-menu').find('#add_device').off('click').on('click', function () {
+                var name         = $('#device-name').val();
+                var deviceIP     = $('#device-ip-address').val();
+                var deviceType   = $('#device-type').val();
+
+                add_device(name, deviceIP, deviceType);
+                console.log('added device: ' + deviceIP.toString());
+            });
+
+            $('#add-device-menu').find('#cancel_device').off('click').on('click', function () {
+                $('#add-device-menu').modal().modal('close');
+            });
+            
             // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
             if (M) M.updateTextFields();
+
         }
 
         // This will be called by the admin adapter when the user presses the save button
@@ -56,6 +104,7 @@
             });
             callback(obj);
         }
+
     </script>
 
 </head>
@@ -109,6 +158,8 @@
                             <td style="width: 60px; text-align: center" class="translate"></td>
                         </tr>
                         </thead>
+                        <!--the table is initially empty, show_device fills this part, 
+                            probably not the best way though -->
                         <tbody id="grid-devices">
 
                         </tbody>
@@ -123,8 +174,8 @@
             <div class="modal-content">
                 <div class="row">
                     <div class="col s12">
-                        <input id="name" type="text">
-                        <label class="translate" for="name">Name</label>
+                        <input id="device-name" type="text">
+                        <label class="translate" for="device-name">Name</label>
                     </div>
                 </div>
                 <div class="row">
@@ -135,15 +186,14 @@
                             <option value="s-gsm">Smart GSM</option>
                             <option value="s-key">Smart Key</option>
                             <option value="s-nature">Smart Nature</option>
-
                         </select>
-                        <label class="translate" for="type">Device Type</label>
+                        <label class="translate" for="device-type">Device Type</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12">
                         <input id="device-ip-address" type="text"/>
-                        <label class="translate" for="ip-address">Device IP address</label>
+                        <label class="translate" for="device-ip-address">Device IP address</label>
                     </div>
                 </div>
             </div>
