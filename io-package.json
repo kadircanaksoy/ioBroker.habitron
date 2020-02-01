@@ -53,7 +53,7 @@
     "license": "MIT",
     "platform": "Javascript/Node.js",
     "main": "main.js",
-    "icon": "template.png",
+    "icon": "habitron_large.png",
     "enabled": true,
     "extIcon": "https://raw.githubusercontent.com/kadircanaksoy/iobroker.habitron/master/admin/habitron.png",
     "readme": "https://github.com/kadircanaksoy/iobroker.habitron/blob/master/README.md",
@@ -91,7 +91,7 @@
       },
       "vis"
     ],
-    "installedFrom": "https://github.com/kadircanaksoy/ioBroker.habitron/tarball/0ece2a4ab0436f1cf027cbf3209dd0b3b0394b0b"
+    "installedFrom": "https://github.com/kadircanaksoy/ioBroker.habitron/tarball/9e55054423031357744b1016cf90fbb14cb81d0e"
   },
   "native": {
     "option1": true,
