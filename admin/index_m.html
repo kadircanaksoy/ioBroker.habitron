@@ -17,22 +17,40 @@
     <script type="text/javascript" src="words.js"></script>
 
     <script type="text/javascript">
-        // This will be called by the admin adapter when the settings page loads
-        var devices = {};
+        var devices = new Object();
+
         function show_device(device){
-            var device_html = '';
+
+            var deviceHtml = '';
             var _deviceType = 'Smart '+ device.deviceType.slice(2).replace(/^\w/, c => c.toUpperCase());
-
-            device_html += '<tr class="device" data-channel="' + 'habitron-'+ instance + device.deviceName.toString() + '">';
-            device_html += '<td style="text-align: left;   width: 150px">' + device.deviceName.toString() + '</td>';
-            device_html += '<td style="text-align: center; width: 100px">' + device.deviceAddress.toString() + '</td>';
-            device_html += '<td style="text-align: center; width: 100px">' + _deviceType + '</td>';
-            device_html += '<td style="text-align: center"><a class="btn-floating waves-effect waves-light red del" data-id="' 
-                        + 'habitron-'+ instance + device.deviceName.toString() 
+            var deviceId = 'habitron-'+ instance + '-' + device.deviceName.toString();
+            // Uses instance number + deviceName as the device ID in the html. 
+            // Therefore, names should be enforced to be unique. Probably, not the best way, maybe use IP ?
+            deviceHtml += '<tr class="device" data-channel="' + deviceId + '">';
+            
+            // add device properties to the html
+            deviceHtml += '<td style="text-align: left;   width: 150px">' + device.deviceName.toString() + '</td>';
+            deviceHtml += '<td style="text-align: center; width: 100px">' + device.deviceAddress.toString() + '</td>';
+            deviceHtml += '<td style="text-align: center; width: 100px">' + _deviceType + '</td>';
+            
+            // add a delete button
+            deviceHtml += '<td style="text-align: center"><a class="btn-floating waves-effect waves-light red del" data-id="' 
+                        + deviceId
                         + '"><i class="material-icons">delete</i></a></td>';
-            device_html += '</tr>';
+            deviceHtml += '</tr>';
 
-            $('#grid-devices').append(device_html);
+            $('#grid-devices').append(deviceHtml);
+            
+            // delete button on click
+            $('#grid-devices').find('a[data-id="'+deviceId+'"]').off('click').on('click', function () {
+                var confirmation = window.confirm('Are you sure you want to delete ' + deviceId +' ?');
+                
+                if(confirmation){
+                    delete devices[deviceId];
+                    $('tr[data-channel="' + deviceId + '"]').remove();
+                }                   
+
+            });
         }
 
         function add_device(name, IP, type){
@@ -43,9 +61,19 @@
                 deviceType : type
             };
 
-            devices[name] = device;
+            var deviceId = 'habitron-'+ instance + '-' + device.deviceName.toString();
+            
+            // very annoying! this is only a placeholder solution
+            if (devices.hasOwnProperty(deviceId)){
+                alert("Please enter a unique name");
+                return;
+            } 
+
+            devices[deviceId] = device;
             show_device(device);
         }
+
+        // This will be called by the admin adapter when the settings page loads
 
         function load(settings, onChange) {
             // example: select elements with id=key and class=value and insert value
@@ -78,13 +106,24 @@
                 var deviceType   = $('#device-type').val();
 
                 add_device(name, deviceIP, deviceType);
-                console.log('added device: ' + deviceIP.toString());
             });
 
             $('#add-device-menu').find('#cancel_device').off('click').on('click', function () {
                 $('#add-device-menu').modal().modal('close');
             });
             
+            // TODO
+            
+            // Need to show all present devices but keeping them in this script doesnt work,
+            // every time the page is closed, all data is lost. 
+            // So we need to add devices as ioBroker objects  
+
+            // for (var key in devices){
+            //     if (devices.hasOwnProperty(key)){
+            //         show_device(devices[key]);
+            //     }
+            // }
+
             // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
             if (M) M.updateTextFields();
 
@@ -171,6 +210,7 @@
     <div class="m material-dialogs">
         <div id="add-device-menu" class="modal modal-fixed-footer">
             <div class="modal-content">
+                The name should be unique per adapter instance.
                 <div class="row">
                     <div class="col s12">
                         <input id="device-name" type="text">
@@ -180,6 +220,7 @@
                 <div class="row">
                     <div class="col s12">
                         <select class = "value" id="device-type">
+                            <!-- we can add more, this is just for demo purposes -->
                             <option value="s-controller">Smart Controller</option>
                             <option value="s-detect">Smart Detect</option>
                             <option value="s-gsm">Smart GSM</option>
