@@ -57,18 +57,6 @@ class Template extends utils.Adapter {
             native: {},
         });
 
-        await this.setObjectAsync('testVariableCustom', {
-            type: 'state',
-            common: {
-                name: 'testVariableCustom',
-                type: 'boolean',
-                role: 'indicator',
-                read: true,
-                write: true,
-            },
-            native: {},
-        });
-
         // in this template all states changes inside the adapters namespace are subscribed
         this.subscribeStates('*');
 
@@ -87,11 +75,11 @@ class Template extends utils.Adapter {
         await this.setStateAsync('testVariable', { val: true, ack: true, expire: 30 });
 
         // examples for the checkPassword/checkGroup functions
-        let result = await this.checkPasswordAsync('admin', 'iobroker');
-        this.log.info('check user admin pw iobroker: ' + result);
+        // let result = await this.checkPasswordAsync('admin', 'iobroker');
+        // this.log.info('check user admin pw iobroker: ' + result);
 
-        result = await this.checkGroupAsync('admin', 'admin');
-        this.log.info('check group user admin group admin: ' + result);
+        // result = await this.checkGroupAsync('admin', 'admin');
+        // this.log.info('check group user admin group admin: ' + result);
     }
 
     /**

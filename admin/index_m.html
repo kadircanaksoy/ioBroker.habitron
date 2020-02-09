@@ -51,7 +51,12 @@
                 var confirmation = window.confirm('Are you sure you want to delete ' + deviceId +' ?');
                 
                 if(confirmation){
-                    socket.emit('delObject', deviceId, )
+                    //socket.emit('delObject', deviceId, function(err){
+                    //     if (err) 
+                    //          console.log('Cannot delete device ' + deviceId + ' error occured: ' + err);
+                    //     else 
+                    //          console.log('Deleted device '+deviceId);
+                    // });
                     $('tr[data-channel="' + deviceId + '"]').remove();
                 }                   
             });
@@ -68,7 +73,7 @@
                 deviceType : type
             };
 
-            var deviceId = 'habitron-'+ instance + '-' + device.deviceName.toString();
+            var deviceId = 'habitron-'+ instance + '-' + name.toString();
             
             // very annoying! this is only a placeholder solution
             if (name == '' || devices.hasOwnProperty(deviceId)){
@@ -76,16 +81,22 @@
                 return;
             } 
 
-            socket.emit('setObject', deviceId, device, function(err){
-                if(err) {
-                    console.log('Cant add device, error occured: ' + err);
-                } else {
-                    console.log('Im here');
-                }
+            socket.emit('setObject', 
+                deviceId, {
+                    type: 'device',
+                    common : device,
+                    native : {}
+                }, function(err){
+                    if(err) {
+                        console.log('Cant add device, error occured: ' + err);
+                    } else {
+                        console.log('Im here');
+                    }
 
             });
 
-            show_device(device);
+            // probably unnecessary 
+            //show_device(device);
         }
 
         // This will be called by the admin adapter when the settings page loads
@@ -133,14 +144,30 @@
             // every time the page is closed, all data is lost. 
             // So we need to add devices as ioBroker objects  
 
-            // socket.emit('getObjectView', 'system', 'meta', {startkey: 'artnet.meta.', endkey: 'artnet.meta.\u9999', include_docs: true}, function (err, res) {
-            //     var $fixture = $('#fixture');
-            //     for (var i = res.rows.length - 1; i >= 0; i--) {
-            //         var row = res.rows[i];
-            //         fixtures[row.id] = row.value;
-            //         $fixture.append('<option value="' + row.id + '">' + _(row.value.native.channel.common.role) + '</option>');
-            //     }
-            // });
+            // socket.emit('getObjectView', 'habitron', 'device', 
+            //             {startkey: 'habitron.'+instance+'.', endkey: 'habitron.'+instance+'.\u9999', include_docs: true},
+            //              function (err, res) {
+            //                 if (err) { 
+            //                     console.log('Cant show devices, error occured: ' + err);
+            //                 }
+
+            //                 else {
+            //                     console.log('Showing all devices');
+            //                     for (const row of res.rows){
+            //                         console.log('device is: ' + row.id);
+            //                         show_device(row.value.common);
+            //                     }
+            //                 }
+            //             });
+            
+            // this works but the bit above doesnt. getObject returns a single object.
+            socket.emit('getObject','habitron-0-test', function(err, res){
+                if(err) 
+                    console.log(err);
+                else {
+                    show_device(res.common);
+                } 
+            });
 
             // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
             if (M) M.updateTextFields();
