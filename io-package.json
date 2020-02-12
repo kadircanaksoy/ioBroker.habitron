@@ -65,6 +65,14 @@
     "option1": true,
     "option2": "42"
   },
-  "objects": [],
+  "objects": [{
+    "_id" : "_design/habitron",
+    "language": "javascript",
+    "views": {
+      "getDevices": {
+        "map": "function(doc) {\n  if (doc._id.match(/^habitron\\.[0-9]+\\.\\*?[A-Za-z0-9_-]+(\\.[0-9]+)?$/)) {\n   emit(doc._id, {ADDRESS:(doc.native?doc.native.ADDRESS:''),VERSION:(doc.native?doc.native.VERSION:'')});\n  }\n}"
+      }
+    }
+  }],
   "instanceObjects": []
 }
