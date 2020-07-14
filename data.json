@@ -9,7 +9,7 @@
       "raumtemperatur": "low",
       "dimmkanal1": 44,
       "luftfeuchte": 25,
-      "rest_of_the_data": {}
+      "rest_of_the_data": null
     }
   },
   "module2": {
@@ -19,7 +19,7 @@
     "data": {
       "aussentemperatur": "low",
       "innentemperatur": "low",
-      "and_so_on": {}
+      "and_so_on": null
     }
   },
 }
