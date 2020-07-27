@@ -10,8 +10,9 @@ const utils = require('@iobroker/adapter-core');
 
 // Load your modules here, e.g.:
 // const fs = require("fs");
+const axios = require('axios').default;
 
-class Template extends utils.Adapter {
+class Habitron extends utils.Adapter {
 
     /**
      * @param {Partial<ioBroker.AdapterOptions>} [options={}]
@@ -24,7 +25,7 @@ class Template extends utils.Adapter {
         this.on('ready', this.onReady.bind(this));
         this.on('objectChange', this.onObjectChange.bind(this));
         this.on('stateChange', this.onStateChange.bind(this));
-        // this.on('message', this.onMessage.bind(this));
+        this.on('message', this.onMessage.bind(this));
         this.on('unload', this.onUnload.bind(this));
     }
 
@@ -33,53 +34,96 @@ class Template extends utils.Adapter {
      */
     async onReady() {
         // Initialize your adapter here
+        const url = "http://0.0.0.0:8080/data.json";
+        var $this = this; 
+        var data;
+        
+        axios.get(url).then(function(response){
+            data = response.data; 
+            if (data){
+                for (const module of data.modules) {
+                    // create a Device object for every module
+                    $this.setObjectAsync(module.name, {
+                        type: 'device',
+                        common:{
+                            // TODO What if there is already a user-defined name? 
+                            name: module.name + '_' + module.type, // default naming
+                        },
+                        native: (({name, type, address, modulstatus}) => ({name, type, address, modulstatus}))(module)
+                    });
 
-        // The adapters config (in the instance object everything under the attribute "native") is accessible via
-        // this.config:
-        this.log.info('config option1: ' + this.config.option1);
-        this.log.info('config option2: ' + this.config.option2);
-        this.log.info('config option3: ' + this.config.option3);
+                    // create objects for each data class 
+                    for (const channel of Object.keys(module.data)){
+                        // if data entry is an object, it is a Channel
+                        if(typeof(module.data[channel]) == "object"){  
+                            // first make a Channel
+                            $this.setObjectAsync(module.name + '.' + channel, {
+                                type: 'channel',
+                                common: {
+                                    name : channel,
+                                },
+                                native: {}
+                            });    
+                            // then add a State object for every entry in the Channel
+                            for (const state of Object.keys(module.data[channel])){ 
+                                var role;
+                                switch (typeof(module.data[channel][state])){
+                                    case "number" : 
+                                        role = "level";
+                                        break;
+                                    case "boolean" :
+                                        role = "indicator";
+                                        break;
+                                    default :
+                                        role = "state";
+                                        break;
+                                }
 
-        /*
-        For every state in the system there has to be also an object of type state
-        Here a simple template for a boolean variable named "testVariable"
-        Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
-        */
-        // await this.setObjectAsync('testVariable', {
-        //     type: 'state',
-        //     common: {
-        //         name: 'testVariable',
-        //         type: 'boolean',
-        //         role: 'indicator',
-        //         read: true,
-        //         write: true,
-        //     },
-        //     native: {},
-        // });
+                                $this.setObjectAsync(module.name + '.' + channel + '.' + state, {
+                                    type: 'state',
+                                    common: {
+                                        name : state,
+                                        role : role,
+                                    },
+                                    native: {}
+                                });     
+                            }
+                        } else { // otherwise, directly add a State object
+                            var role;
+                            switch (typeof(module.data[channel])){
+                                case "number" : 
+                                    role = "level";
+                                    break;
+                                case "boolean" :
+                                    role = "indicator";
+                                    break;
+                                default :
+                                    role = "state";
+                                    break;
+                            }
 
-        // in this template all states changes inside the adapters namespace are subscribed
+                            $this.setObjectAsync(module.name + '.' + channel, {
+                                type: 'state',
+                                common: {
+                                    name : channel,
+                                    role : role,
+                                },
+                                native: {}
+                            });     
+                        } 
+                    }
+                }
+            } else {
+                $this.log.error("JSON object is empty!");
+            }
+        }).catch(function (error){
+            $this.log.error("HTTP GET to url: " + url + " failed, "+ error);
+        });
+        
+        // subscribe to every state and object change
+        this.subscribeObjects('*');
         this.subscribeStates('*');
 
-        /*
-        setState examples
-        you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-        */
-        // the variable testVariable is set to true as command (ack=false)
-        await this.setStateAsync('testVariable', true);
-
-        // same thing, but the value is flagged "ack"
-        // ack should be always set to true if the value is received from or acknowledged from the target system
-        await this.setStateAsync('testVariable', { val: true, ack: true });
-
-        // same thing, but the state is deleted after 30s (getState will return null afterwards)
-        await this.setStateAsync('testVariable', { val: true, ack: true, expire: 30 });
-
-        // examples for the checkPassword/checkGroup functions
-        // let result = await this.checkPasswordAsync('admin', 'iobroker');
-        // this.log.info('check user admin pw iobroker: ' + result);
-
-        // result = await this.checkGroupAsync('admin', 'admin');
-        // this.log.info('check group user admin group admin: ' + result);
     }
 
     /**
@@ -103,7 +147,7 @@ class Template extends utils.Adapter {
     onObjectChange(id, obj) {
         if (obj) {
             // The object was changed
-            this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
+            // this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
         } else {
             // The object was deleted
             this.log.info(`object ${id} deleted`);
@@ -126,22 +170,22 @@ class Template extends utils.Adapter {
         }
     }
 
-    // /**
-    //  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
-    //  * Using this method requires "common.message" property to be set to true in io-package.json
-    //  * @param {ioBroker.Message} obj
-    //  */
-    // onMessage(obj) {
-    // 	if (typeof obj === 'object' && obj.message) {
-    // 		if (obj.command === 'send') {
-    // 			// e.g. send email or pushover or whatever
-    // 			this.log.info('send command');
+    /**
+     * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
+     * Using this method requires "common.message" property to be set to true in io-package.json
+     * @param {ioBroker.Message} obj
+     */
+    onMessage(obj) {
+    	if (typeof obj === 'object' && obj.message) {
+    		if (obj.command === 'send') {
+    			// e.g. send email or pushover or whatever
+    			this.log.info('send command');
 
-    // 			// Send response in callback if required
-    // 			if (obj.callback) this.sendTo(obj.from, obj.command, 'Message received', obj.callback);
-    // 		}
-    // 	}
-    // }
+    			// Send response in callback if required
+    			if (obj.callback) this.sendTo(obj.from, obj.command, 'Message received', obj.callback);
+    		}
+    	}
+    }
 
 }
 
@@ -151,8 +195,8 @@ if (module.parent) {
     /**
      * @param {Partial<ioBroker.AdapterOptions>} [options={}]
      */
-    module.exports = (options) => new Template(options);
+    module.exports = (options) => new Habitron(options);
 } else {
     // otherwise start the instance directly
-    new Template();
+    new Habitron();
 }

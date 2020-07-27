@@ -37,7 +37,6 @@
     "@iobroker/adapter-core": "^2.1.0"
   },
   "deprecated": false,
-  "description": "Adapter for the Habitron system ",
   "devDependencies": {
     "@iobroker/testing": "^2.0.0",
     "@types/chai": "^4.2.7",
@@ -48,7 +47,7 @@
     "@types/proxyquire": "^1.3.28",
     "@types/sinon": "^7.5.1",
     "@types/sinon-chai": "^3.2.3",
-    "axios": "^0.19.1",
+    "axios": "^0.19.2",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "^6.8.0",
@@ -61,13 +60,12 @@
   "homepage": "https://github.com/kadircanaksoy/ioBroker.habitron",
   "keywords": [
     "ioBroker",
-    "template",
+    "Habitron",
     "Smart Home",
     "home automation"
   ],
   "license": "MIT",
   "main": "main.js",
-  "name": "iobroker.habitron",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kadircanaksoy/ioBroker.habitron.git"
@@ -79,6 +77,5 @@
     "test:js": "mocha --opts test/mocha.custom.opts",
     "test:package": "mocha test/package --exit",
     "test:unit": "mocha test/unit --exit"
-  },
-  "version": "0.0.1"
+  }
 }

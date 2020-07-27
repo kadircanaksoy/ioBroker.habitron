@@ -4,13 +4,29 @@
 }
 .m {
     /* Don't cut off dropdowns! */
-    overflow: initial;
+    overflow: hidden;
 }
 
+a {
+    outline: 0;
+}
+body .remove_circle {
+    color: rgba(238, 10, 10, 0.63); 
+}
 /* Add your styles here */
 #grid-devices tr:nth-child(even) {
     background: lightgray;
 }
+.btn-flat:hover{
+    background: #ecfcfe;
+}
+.m .dropdown-content {
+    background: #fff;
+}
+.m .select-dropdown.dropdown-content li.selected{
+    background: #bef7ff;
+}
+
 .m .select-wrapper+label {
     top: 100%;
 }
