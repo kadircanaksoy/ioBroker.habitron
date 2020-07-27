@@ -1,0 +1,25 @@
+{
+  "module1": {
+    "type": "SmartController",
+    "ip": "123.234.345.456 (does the router work with local IP's ?)",
+    "modulstatus": "01100100",
+    "data": {
+      "in1-8": 5,
+      "in9-16": 11,
+      "raumtemperatur": "low",
+      "dimmkanal1": 44,
+      "luftfeuchte": 25,
+      "rest_of_the_data": null
+    }
+  },
+  "module2": {
+    "type": "Aussenmodul",
+    "ip": "4.6.7.8",
+    "modulstatus": "11101100",
+    "data": {
+      "aussentemperatur": "low",
+      "innentemperatur": "low",
+      "and_so_on": null
+    }
+  }
+}
