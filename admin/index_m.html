@@ -16,7 +16,6 @@
     <!-- Load our own files -->
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script type="text/javascript" src="words.js"></script>
-
     <script type="text/javascript" src="admin.js"></script>
 
 </head>
@@ -65,8 +64,6 @@
                             <td style="width: 10%; text-align: center" class="translate">Status</td>
                         </tr>
                         </thead>
-                        <!--the table is initially empty, show_device fills this part, 
-                            probably not the best way though -->
                         <tbody id="grid-devices">
                         </tbody>
                     </table>
@@ -78,11 +75,11 @@
     <div class="m material-dialogs">
         <div id="device-config-menu" class="modal modal-fixed-footer">
             <div class="modal-content">
-                This'll show a bunch more features
                 <div class="col s12 m4">
                     <input type="text" class="value" id="config-device-name"/>
                     <label for="config-device-name" class="translate">Name</label>
                 </div>
+                <ul class="collapsible popout" id="config-device-channels">
             </div>
             <div class="modal-footer">
                 <a class="modal-action modal-close waves-effect waves-green btn-flat translate" id="save_device">Save Changes</a>

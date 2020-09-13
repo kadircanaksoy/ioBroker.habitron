@@ -69,9 +69,15 @@
     "_id" : "_design/habitron",
     "language": "javascript",
     "views": {
-      "getDevices": {
-        "map": "function(doc) {\n  if (doc._id.match(/^habitron\\.[0-9]+\\.module[0-9]+$/)) {\n   emit(doc._id, {common:doc.common, native:doc.native});\n  }\n}"
-      }
+        "getDevices": {
+            "map": "function(doc) {\n  if (doc._id.match(/^habitron\\.[0-9]+\\.module[0-9]+$/)) {\n   emit(doc._id, {common:doc.common, native:doc.native});\n  }\n}"
+        },
+        "getChannels": {
+            "map":  "function(doc) {\n  if (doc._id.match(/^habitron\\.[0-9]+\\.module[0-9]+\\.\\w*$/)) {\n   emit(doc._id, {common:doc.common, native:doc.native});\n  }\n}"
+        },
+        "getStates": {
+            "map":  "function(doc) {\n  if (doc._id.match(/^habitron\\.[0-9]+\\.module[0-9]+\\.\\w*\\.\\w*$/)) {\n   emit(doc._id, {common:doc.common, native:doc.native});\n  }\n}"
+        }
     }
   }],
   "instanceObjects": []

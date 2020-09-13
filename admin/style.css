@@ -41,3 +41,9 @@ body .remove_circle {
 .m td, .m th {
     padding: 2px 5px;
 }
+.m .collection .collection-item:hover {
+    background: #ecfcfe;
+}
+.collapsible {
+    accordion: false
+}
